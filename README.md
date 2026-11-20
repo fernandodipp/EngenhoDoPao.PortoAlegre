@@ -8,4 +8,4 @@ Protótipo do site da padaria **Engenho do Pão** (Praça Lima Duarte, Chácara 
 
 Para ver localmente: `cd site && python3 -m http.server 8000` e abra http://localhost:8000.
 
-Desenvolvido por [Fernando Dipp](https://fernandodipp.github.io/).
+Desenvolvido por [Fernando Dipp](https://fernandodipp.pages.dev/).
