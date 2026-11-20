@@ -73,3 +73,25 @@ O usuário achou a primeira versão "muito ruim". A página foi refeita **fora d
 
 **Testes (Playwright/Chromium, 1440×900 e 390×844):** 0 erros no console, sem rolagem lateral, Lenis ativo, revelações completas ao rolar. Corrigido depois da primeira captura: contraste do botão do rodapé, telefone quebrando no passo 2, cartão de horário encostado na borda do celular, barra fixa cobrindo o botão do rodapé e foto pequena da visita colada na borda.
 **Não testado:** Safari, Firefox, celular real, Core Web Vitals e os modos sem JS e com movimento reduzido no navegador (só revisados no código).
+
+---
+
+## Aprovação social (20/11/2026)
+
+Seção `#clientes`, entre Balcão e Encomendas. Usa **só comentários reais e públicos**:
+- **Instagram** (lidos nos posts, inclusive com a conta logada): reels CwhvqDBLf2D, DfrxAmMjLVp, DfHyA6pD-B2, Ddge7H1jJ9v e DdTso_bAJpv. Foram 60 posts verificados.
+- **Google Maps:** uma avaliação 5★ e um destaque do resumo de avaliações. Sem login, o Google mostra poucas avaliações. Com o login no navegador de automação incompleto (parou na senha), não deu para ordenar por nota.
+- Ajustes mínimos de grafia ("env comenda" → "encomenda"). Trechos positivos de avaliações de 2★ e 3★ não foram usados, porque seria enganoso.
+- **Sem nome nem @ dos autores** (LGPD). Cada citação aponta a fonte com link.
+- **Pendência:** autorização da dona (e, se ela quiser nomes, dos clientes). Com acesso ao Google Business dela, dá para escolher mais avaliações 5★.
+
+**SEO:** H2 com "padaria", texto real e rastreável (`figure > blockquote[cite] + figcaption > cite`) e links para as fontes. **Sem marcação `Review`/`AggregateRating`, de propósito:** avaliações da própria empresa no próprio site são "self-serving reviews". O Google não mostra estrelas para elas e pode tratar a marcação como manipulação. A nota 4,1 também não é exibida (fica abaixo dos concorrentes).
+
+**Divergência encontrada:** o perfil do Instagram mostra CEP **90830-470**, e o Google mostra **91330-380** (este é o usado no site). A dona precisa confirmar.
+
+## Publicação (prévia)
+
+- Repositório: https://github.com/fernandodipp/EngenhoDoPao.PortoAlegre (público). Publicação no GitHub Pages via Actions (`.github/workflows/pages.yml`, pasta `site/`).
+- Endereço da prévia: https://fernandodipp.github.io/EngenhoDoPao.PortoAlegre/
+- **Fora dos buscadores** até a aprovação da dona: `<meta name="robots" content="noindex, nofollow">` nas duas páginas e `robots.txt` com `Disallow: /`. Na versão final: remover os dois, adicionar `sitemap.xml`, ativar a `canonical` com o domínio `engenhodopao.com.br` e configurar o domínio no Pages.
+- `referencias/` (fotos brutas baixadas) e artefatos de teste ficam fora do git.
