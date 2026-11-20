@@ -27,9 +27,10 @@
   /* --- menu do celular --- */
   var botao = $('[data-menu]');
   if (botao && topo) {
-    var fechar = function () { topo.classList.remove('is-aberto'); botao.setAttribute('aria-expanded', 'false'); botao.setAttribute('aria-label', 'Abrir menu'); };
+    var fechar = function () { topo.classList.remove('is-aberto'); document.documentElement.classList.remove('menu-aberto'); botao.setAttribute('aria-expanded', 'false'); botao.setAttribute('aria-label', 'Abrir menu'); };
     botao.addEventListener('click', function () {
       var aberto = topo.classList.toggle('is-aberto');
+      document.documentElement.classList.toggle('menu-aberto', aberto); // trava a página por trás
       botao.setAttribute('aria-expanded', String(aberto));
       botao.setAttribute('aria-label', aberto ? 'Fechar menu' : 'Abrir menu');
     });

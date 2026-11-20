@@ -11,7 +11,17 @@
 
   // 1) Scroll suave: o Lenis controla a rolagem e avisa o ScrollTrigger a cada quadro.
   function iniciarScrollSuave() {
+    // Telas de toque usam a rolagem nativa (já tem inércia). O Lenis ali brigava com o pinça-zoom.
+    if (window.matchMedia('(pointer: coarse)').matches) return;
     var lenis = new window.Lenis({ lerp: 0.1 });
+    // Zoom do navegador (Ctrl +/-) muda o tamanho da página: o Lenis seguia animando até o destino
+    // antigo e a tela "rolava sozinha". Ao redimensionar, recalcula e fixa a posição atual.
+    var aoRedimensionar = function () {
+      lenis.resize();
+      lenis.scrollTo(window.scrollY, { immediate: true, force: true });
+    };
+    window.addEventListener('resize', aoRedimensionar);
+    if (window.visualViewport) window.visualViewport.addEventListener('resize', aoRedimensionar);
     var quadro = function (tempo) { lenis.raf(tempo * 1000); };
     lenis.on('scroll', ScrollTrigger.update);
     gsap.ticker.add(quadro);
@@ -48,6 +58,8 @@
 
   try {
     gsap.registerPlugin(ScrollTrigger);
+    // a barra de endereço do celular aparecendo/sumindo não deve recalcular os gatilhos
+    ScrollTrigger.config({ ignoreMobileResize: true });
     if (window.Lenis) iniciarScrollSuave();
     iniciarRevelacoes();
     window.addEventListener('load', function () { ScrollTrigger.refresh(); });

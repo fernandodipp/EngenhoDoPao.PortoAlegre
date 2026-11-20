@@ -178,8 +178,18 @@ a { color: inherit; }
     border-radius: 50%; border: 1px solid currentColor; background: transparent; color: inherit; cursor: pointer;
   }
   .menu-botao svg { width: 20px; height: 20px; }
-  .topo.is-aberto { background: var(--creme); color: var(--tinta); }
-  .topo.is-aberto nav { display: block; position: fixed; inset: 76px 0 0; background: var(--creme); padding: 2rem var(--gut); }
+  /* menu aberto: topo opaco e sem desfoque (backdrop-filter prenderia o painel fixo dentro do topo) */
+  .topo.is-aberto, .topo.is-aberto.is-solido {
+    background: var(--creme); color: var(--tinta); box-shadow: 0 1px 0 var(--linha);
+    -webkit-backdrop-filter: none; backdrop-filter: none;
+  }
+  .topo.is-aberto nav {
+    display: block; position: absolute; top: 100%; left: 0; right: 0;
+    height: calc(100vh - 76px); height: calc(100dvh - 76px); overflow-y: auto; overscroll-behavior: contain;
+    background-color: var(--creme); background-image: inherit; padding: 1.5rem var(--gut) 2rem;
+    box-shadow: inset 0 1px 0 var(--linha);
+  }
+  html.menu-aberto, html.menu-aberto body { overflow: hidden; }
   .topo.is-aberto nav ul { flex-direction: column; gap: 0; }
   .topo.is-aberto nav a { display: block; padding: 1rem 0; font: 400 2rem/1.2 var(--fonte-titulo); border-bottom: 1px solid var(--linha); background: none; }
 }
@@ -356,6 +366,10 @@ a { color: inherit; }
   transition: border-color var(--dur-rapida) var(--ease);
 }
 .campo textarea { min-height: 88px; resize: vertical; }
+/* data: o Safari do iPhone dá ao input date uma largura mínima própria e ele vazava pela direita */
+.campo input[type="date"] { -webkit-appearance: none; appearance: none; display: block; min-width: 0; max-width: 100%; text-align: left; }
+.campo input[type="date"]::-webkit-date-and-time-value { text-align: left; margin: 0; }
+.campo input[type="date"]::-webkit-calendar-picker-indicator { margin-left: auto; cursor: pointer; }
 .campo :is(input, select, textarea):focus { outline: none; border-color: var(--ouro-escuro); box-shadow: inset 1px 2px 3px rgb(42 24 13 / .06), 0 0 0 4px rgb(229 165 10 / .25); }
 .campo [aria-invalid="true"] { border-color: #b42318; }
 .campo__erro { color: #b42318; font-size: .875rem; }
