@@ -1,0 +1,4 @@
+# Prévia: fora dos buscadores até a aprovação da dona.
+# Na versão final, trocar por "Allow: /" e adicionar o Sitemap.
+User-agent: *
+Disallow: /

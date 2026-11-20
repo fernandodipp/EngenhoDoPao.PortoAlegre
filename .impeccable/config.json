@@ -1,0 +1,26 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "site/privacidade.html"
+        ],
+        "createdAt": "2026-11-20T18:47:27.959Z",
+        "reason": "Claude: creme #FBF6EC vem da paleta do logo da padaria (fase-b-identidade.md), mesma da página principal"
+      },
+      {
+        "rule": "italic-serif-display",
+        "value": "*",
+        "files": [
+          "site/index.html"
+        ],
+        "createdAt": "2026-11-20T18:58:10.792Z",
+        "reason": "Claude: itálico só em palavras de destaque, ecoando a letra cursiva do logo da padaria (fase-b-identidade.md); títulos seguem romanos"
+      }
+    ]
+  }
+}

@@ -1,0 +1,7 @@
+# material bruto de pesquisa (fotos baixadas do Instagram/Google) e artefatos de teste
+referencias/
+.playwright-mcp/
+.taste-skill/
+*:Zone.Identifier
+.DS_Store
+.impeccable/hook.cache.json
