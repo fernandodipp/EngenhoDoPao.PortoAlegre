@@ -14,7 +14,7 @@
   --tinta-2: #5e4636;        /* 7,4:1 sobre o creme */
   --ouro: #e5a50a;
   --ouro-claro: #f6c847;
-  --ouro-escuro: #9a6a00;    /* 4,9:1 sobre o creme: só texto grande e detalhes */
+  --ouro-escuro: #8a5e00;    /* 5,3:1 sobre o creme, 4,8:1 sobre o creme-2, 5,6:1 sobre a farinha */
   --cafe: #22140b;           /* fundo escuro das encomendas e do rodapé */
   --cafe-2: #341f12;
   --cafe-texto: #f3e8d6;
@@ -86,7 +86,11 @@ p { margin: 0; text-wrap: pretty; }
 em { font-style: italic; }
 .destaque { font-style: italic; color: var(--ouro-escuro); }
 a { color: inherit; }
-:focus-visible { outline: 3px solid var(--ouro); outline-offset: 3px; border-radius: 6px; }
+:focus-visible { outline: 3px solid var(--tinta); outline-offset: 3px; border-radius: 6px; }
+/* fundos escuros: contorno dourado (8:1 sobre o café); no formulário claro dentro da seção escura, volta a tinta */
+.escuro :focus-visible, .rodape :focus-visible, .heroi :focus-visible, .pular:focus-visible,
+.topo:not(.is-solido):not(.is-aberto) :focus-visible { outline-color: var(--ouro); }
+.escuro .form :focus-visible { outline-color: var(--tinta); }
 .visualmente-oculto { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .pular { position: absolute; left: var(--gut); top: -100px; z-index: 100; background: var(--tinta); color: var(--creme); padding: .75rem 1rem; border-radius: 10px; }
 .pular:focus { top: 12px; }
@@ -231,11 +235,11 @@ a { color: inherit; }
   position: absolute; z-index: 2; left: 50%; bottom: 1.25rem; translate: -50% 0;
   width: 26px; height: 42px; border-radius: 14px; border: 1.5px solid rgb(251 246 236 / .5);
 }
-.rolar-dica::after { content: ""; position: absolute; left: 50%; top: 8px; width: 3px; height: 8px; margin-left: -1.5px; border-radius: 2px; background: var(--creme); animation: rolar 1.8s var(--ease) infinite; }
+.rolar-dica::after { content: ""; position: absolute; left: 50%; top: 8px; width: 3px; height: 8px; margin-left: -1.5px; border-radius: 2px; background: var(--creme); animation: rolar 1.8s var(--ease) 2; }
 @keyframes rolar { 0% { transform: translateY(0); opacity: 1; } 70% { transform: translateY(12px); opacity: 0; } 100% { opacity: 0; } }
 @media (max-width: 860px) {
   .heroi__selo { position: relative; z-index: 2; right: auto; bottom: auto; margin: -1.5rem var(--gut) 2rem; max-width: none; }
-  .heroi::before { background: linear-gradient(180deg, rgb(34 20 11 / .5) 0%, rgb(34 20 11 / .25) 30%, rgb(34 20 11 / .9) 62%, rgb(34 20 11 / .96) 100%); }
+  .heroi::before { background: linear-gradient(180deg, rgb(34 20 11 / .5) 0%, rgb(34 20 11 / .4) 22%, rgb(34 20 11 / .9) 46%, rgb(34 20 11 / .96) 100%); }
   .rolar-dica { display: none; }
 }
 
@@ -259,9 +263,23 @@ a { color: inherit; }
 .faixa__grupo span::after { content: "✦"; font-style: normal; font-size: .7em; margin-left: 2.25rem; opacity: .7; }
 @media (prefers-reduced-motion: no-preference) {
   .faixa__trilho { animation: correr 38s linear infinite; }
-  .faixa:hover .faixa__trilho { animation-play-state: paused; }
+  .faixa:hover .faixa__trilho, .faixa-envolta.is-pausada .faixa__trilho { animation-play-state: paused; }
   @keyframes correr { to { transform: translateX(-50%); } }
 }
+
+/* botão de pausar a faixa (WCAG 2.2.2): só aparece com JS e com movimento liberado */
+.faixa-envolta { position: relative; }
+.faixa-pausa {
+  position: absolute; right: var(--gut); top: 50%; translate: 0 -50%; z-index: 1;
+  display: inline-flex; align-items: center; gap: .4rem; min-height: 44px; padding: 0 1rem;
+  border: 1px solid rgb(42 24 13 / .25); border-radius: 999px; background: var(--farinha); color: var(--tinta);
+  font: 700 .875rem/1 var(--fonte-texto); cursor: pointer; box-shadow: var(--elev-1);
+}
+.faixa-pausa[hidden] { display: none; }
+.faixa-pausa svg { width: 14px; height: 14px; }
+.faixa-pausa .icone-tocar, .faixa-pausa[aria-pressed="true"] .icone-pausar { display: none; }
+.faixa-pausa[aria-pressed="true"] .icone-tocar { display: block; }
+@media (prefers-reduced-motion: reduce) { .faixa-pausa { display: none; } }
 
 /* ---------- Cartões com foto (material: papel fosco elevado) ---------- */
 .foto {
@@ -360,17 +378,18 @@ a { color: inherit; }
 .campo label { font-size: .875rem; font-weight: 700; }
 .campo :is(input, select, textarea) {
   width: 100%; min-height: 50px; padding: .7rem .95rem; border-radius: var(--raio-sm);
-  border: 1.5px solid rgb(42 24 13 / .18); background: #fff; color: var(--tinta);
+  border: 1.5px solid rgb(42 24 13 / .55); background: #fff; color: var(--tinta); /* 3,8:1 sobre o branco */
   font: 400 1rem/1.4 var(--fonte-texto);
   box-shadow: inset 1px 2px 3px rgb(42 24 13 / .06); /* campo levemente rebaixado */
   transition: border-color var(--dur-rapida) var(--ease);
 }
 .campo textarea { min-height: 88px; resize: vertical; }
+.campo ::placeholder { color: var(--tinta-2); opacity: 1; } /* 8,7:1 sobre o branco */
 /* data: o Safari do iPhone dá ao input date uma largura mínima própria e ele vazava pela direita */
 .campo input[type="date"] { -webkit-appearance: none; appearance: none; display: block; min-width: 0; max-width: 100%; text-align: left; }
 .campo input[type="date"]::-webkit-date-and-time-value { text-align: left; margin: 0; }
 .campo input[type="date"]::-webkit-calendar-picker-indicator { margin-left: auto; cursor: pointer; }
-.campo :is(input, select, textarea):focus { outline: none; border-color: var(--ouro-escuro); box-shadow: inset 1px 2px 3px rgb(42 24 13 / .06), 0 0 0 4px rgb(229 165 10 / .25); }
+.campo :is(input, select, textarea):focus { outline: 3px solid var(--tinta); outline-offset: 2px; border-color: var(--tinta); box-shadow: inset 1px 2px 3px rgb(42 24 13 / .06), 0 0 0 4px rgb(229 165 10 / .25); }
 .campo [aria-invalid="true"] { border-color: #b42318; }
 .campo__erro { color: #b42318; font-size: .875rem; }
 .form__rodape { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; margin-top: .25rem; }
@@ -419,7 +438,7 @@ a { color: inherit; }
 .rodape .marca img { box-shadow: none; }
 .rodape__nome { font: 400 clamp(3rem, 11.6vw, 10.5rem)/.85 var(--fonte-titulo); letter-spacing: -.04em; color: rgb(243 232 214 / .08); white-space: nowrap; margin: 0 0 1.5rem; user-select: none; }
 .rodape__legal { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; font-size: .875rem; color: var(--cafe-mudo); }
-.rodape__legal a { color: var(--cafe-mudo); text-decoration: underline; text-underline-offset: 3px; }
+.rodape .rodape__legal a:not(.btn) { color: var(--cafe-mudo); text-decoration: underline; text-underline-offset: 3px; }
 @media (max-width: 760px) { .rodape__colunas { grid-template-columns: 1fr 1fr; } .rodape__colunas > :first-child { grid-column: 1 / -1; } }
 
 /* crédito do desenvolvedor (creditos-desenvolvedor): discreto, herda a cor */
@@ -432,10 +451,15 @@ a { color: inherit; }
 @media (max-width: 760px) {
   .barra-celular {
     display: flex; position: fixed; z-index: 40; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom));
-    transform: translateY(140%); transition: transform var(--dur-lenta) var(--mola);
+    transform: translateY(140%); visibility: hidden;
+    transition: transform var(--dur-lenta) var(--mola), visibility 0s linear var(--dur-lenta);
   }
   .barra-celular .btn { width: 100%; }
-  .barra-celular.is-visivel { transform: none; }
+  .barra-celular.is-visivel { transform: none; visibility: visible; transition-delay: 0s; }
+  /* o foco perto da base da tela não fica sob a barra */
+  html { scroll-padding-bottom: 88px; }
+  /* anel duplo: tinta por dentro e creme por fora, visível sobre fundo claro ou escuro */
+  .barra-celular .btn:focus-visible { outline: 3px solid var(--tinta); outline-offset: 2px; box-shadow: 0 0 0 8px var(--creme); }
   .rodape { padding-bottom: 6.5rem; }
 }
 

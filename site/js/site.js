@@ -23,19 +23,56 @@
   }
   window.addEventListener('scroll', aoRolar, { passive: true });
   aoRolar();
+  // foco por teclado perto da base da tela: se cair sob a barra fixa, sobe a página o suficiente (WCAG 2.4.11)
+  if (barra) {
+    document.addEventListener('focusin', function (e) {
+      if (!barra.classList.contains('is-visivel') || barra.contains(e.target)) return;
+      var topoBarra = barra.getBoundingClientRect().top;
+      var fundo = e.target.getBoundingClientRect().bottom;
+      if (fundo > topoBarra - 8) window.scrollBy(0, fundo - topoBarra + 16);
+    });
+  }
 
   /* --- menu do celular --- */
   var botao = $('[data-menu]');
   if (botao && topo) {
-    var fechar = function () { topo.classList.remove('is-aberto'); document.documentElement.classList.remove('menu-aberto'); botao.setAttribute('aria-expanded', 'false'); botao.setAttribute('aria-label', 'Abrir menu'); };
+    // com o menu aberto, o resto da página fica inerte: o Tab só percorre o topo e o painel
+    var foraDoMenu = Array.prototype.slice.call(document.querySelectorAll('body > :not(header):not(script)'));
+    var marcarInerte = function (sim) { foraDoMenu.forEach(function (el) { if (sim) el.setAttribute('inert', ''); else el.removeAttribute('inert'); }); };
+    var estaAberto = function () { return topo.classList.contains('is-aberto'); };
+    var fechar = function (devolverFoco) {
+      if (!estaAberto()) return;
+      topo.classList.remove('is-aberto'); document.documentElement.classList.remove('menu-aberto');
+      botao.setAttribute('aria-expanded', 'false'); botao.setAttribute('aria-label', 'Abrir menu');
+      marcarInerte(false);
+      if (devolverFoco) botao.focus();
+    };
     botao.addEventListener('click', function () {
-      var aberto = topo.classList.toggle('is-aberto');
-      document.documentElement.classList.toggle('menu-aberto', aberto); // trava a página por trás
-      botao.setAttribute('aria-expanded', String(aberto));
-      botao.setAttribute('aria-label', aberto ? 'Fechar menu' : 'Abrir menu');
+      if (estaAberto()) { fechar(true); return; }
+      topo.classList.add('is-aberto');
+      document.documentElement.classList.add('menu-aberto'); // trava a página por trás
+      botao.setAttribute('aria-expanded', 'true'); botao.setAttribute('aria-label', 'Fechar menu');
+      marcarInerte(true);
+      var primeiro = topo.querySelector('nav a');
+      if (primeiro) primeiro.focus();
     });
-    topo.querySelectorAll('nav a').forEach(function (a) { a.addEventListener('click', fechar); });
-    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') fechar(); });
+    topo.querySelectorAll('nav a').forEach(function (a) { a.addEventListener('click', function () { fechar(false); }); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && estaAberto()) fechar(true); });
+    // ao alargar a janela (ou tirar o zoom), o menu do celular some: fecha e libera a página
+    var celular = window.matchMedia('(max-width: 860px)');
+    var aoMudarLargura = function () { if (!celular.matches) fechar(false); };
+    if (celular.addEventListener) celular.addEventListener('change', aoMudarLargura);
+  }
+
+  /* --- pausar a faixa rotativa (WCAG 2.2.2) --- */
+  var faixa = $('[data-faixa]');
+  var pausa = $('[data-faixa-pausa]');
+  if (faixa && pausa) {
+    pausa.hidden = false; // sem JS o botão não funcionaria, então só aparece aqui
+    pausa.addEventListener('click', function () {
+      var pausada = faixa.classList.toggle('is-pausada');
+      pausa.setAttribute('aria-pressed', String(pausada));
+    });
   }
 
   /* --- aberto agora / hoje --- */
