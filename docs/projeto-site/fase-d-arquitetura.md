@@ -60,6 +60,6 @@ Celular: barra fixa no rodapé com "Fazer encomenda", que só aparece depois que
 - Nada se mexe sozinho, e nada aparece "ao rolar" fora a foto que revela.
 
 ## Tecnologia
-- HTML e CSS estáticos sobre o kit `design-taste-frontend` (system.css/js e motion), sem framework.
+- HTML, CSS e JS estáticos, sem framework e sem build. Bibliotecas de terceiros (GSAP e Lenis) hospedadas no próprio site, em `site/js/vendor/`.
 - Hospedagem estática (Netlify, Cloudflare Pages ou GitHub Pages) apontando o domínio `engenhodopao.com.br`. **Decisão da dona.**
 - Imagens em WebP com `srcset`, carregamento preguiçoso fora do topo e fontes locais.

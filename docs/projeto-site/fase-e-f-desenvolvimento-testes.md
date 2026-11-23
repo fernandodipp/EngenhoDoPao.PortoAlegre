@@ -1,48 +1,36 @@
 # Fases E e F — Desenvolvimento e testes | Engenho do Pão
 
-## Entrega
+## Entrega (estado atual, revisado em 23/11/2026)
 - `site/index.html`: página única (protótipo).
 - `site/privacidade.html`: política de privacidade curta (LGPD).
-- `site/assets/site.js`: formulário → WhatsApp, links dos cartões que já escolhem o tipo, e a linha "Aberto agora" em português.
-- `site/assets/img/`: 23 WebP (2,2 MB) a partir de fotos da própria padaria.
+- `site/css/estilo.css` e `site/css/fontes.css`: estilo e fontes.
+- `site/js/site.js`: topo, menu do celular, barra fixa de encomenda, linha "Aberto agora", botão de pausar a faixa e formulário → WhatsApp (os cartões "Encomendar…" já escolhem o tipo).
+- `site/js/animacoes.js`: scroll suave (Lenis) e revelação dos títulos ao rolar (GSAP + ScrollTrigger).
+- `site/js/vendor/`: GSAP 3.12.5, ScrollTrigger 3.12.5 e Lenis 1.3.27, hospedados no próprio site com as licenças (até 23/11/2026 vinham das CDNs cdnjs e jsDelivr).
+- `site/assets/img/`: 20 WebP (2,2 MB) a partir de fotos da própria padaria.
 - `site/assets/fonts/`: Playfair Display 400 e Lato 400/700, hospedadas no próprio site.
-- Base: kit `design-taste-frontend` (system.css/js, motion, layout). Os arquivos do kit não foram alterados.
+- HTML, CSS e JS sem framework e sem build.
 
-Para ver: `cd site && python3 -m http.server 8000` e abrir http://localhost:8000. Os scripts são módulos e não rodam via `file://`.
-
-## Sorteio de layout e decisões
-- Tipo de página: **place** (padaria com porta aberta).
-- Menu `nav-cards` (o item "Encomendas" abre um painel com 3 fotos), rodapé `footer-columns`, fechamento `close-photo`, ritmo `space` (fundo único), botões `block`.
-- Momento sorteado: `picture-develops` na foto dos doguinhos (revela uma vez, como papel fotográfico).
-- Momento tipográfico: endereço em letra grande na seção de visita.
-- Marca: o logo real da padaria no lugar da marca desenhada que o kit sortearia.
-- Paleta: as cores do próprio logo (`start.mjs brand`). Par tipográfico 1 da `tipografia-e-cor`.
+Para ver: `cd site && python3 -m http.server 8000` e abrir http://localhost:8000. Os scripts são comuns (não são módulos).
 
 ## Fotos (todas da Engenho do Pão)
 | Arquivo | Origem | Observação |
 |---|---|---|
 | balcao-vitrine, vitrine-doces, doguinhos, tortas, bandejas-salgados, adega | Google Maps, postadas pela conta da padaria | Até 2000px |
-| salgados, sonho-cafe, tortinhas, donuts, doguinhos-minis, natal-mesa, panetones, biscoitos-natal | Instagram @padariaengenhodopao | **Só 512–640px.** Trocar pelos originais |
-| logo | Avatar do Instagram | **Só 150px.** Pedir o logo em vetor |
+| salgados, sonho-cafe, tortinhas, donuts, doguinhos-minis, natal-mesa, panetones | Instagram @padariaengenhodopao | **Só 512–640px.** Trocar pelos originais |
+| logo | Avatar do Instagram | **Só 96px no site.** Pedir o logo em vetor |
 
 Não foram usadas fotos de clientes do Google, nem a foto com a pessoa (provavelmente a dona), nem peças com texto por cima.
 
-## Resultado dos testes
-- **copy-lint:** 0 FAIL, 0 WARN.
-- **Gate (design-taste-frontend):** `GATE: OPEN 7`, com as 3 rodadas usadas. Depois disso, ajustei a altura da visita (1440) e a das encomendas (390), mas o gate não foi rodado de novo.
-- **Exceções registradas** (`.taste-skill/waivers.json`): número da casa, CEP, coordenadas, telefone fixo e WhatsApp. São dados reais e públicos da padaria, e a regra local 7 da skill manda mostrá-los. O verificador do kit foi feito para demonstrações sem cliente.
-- **Falhas que continuam abertas no relatório do gate:**
-  1. `section-height` #visita a 1440: passava 33px da tela. Já corrigido depois do gate (verificado na captura).
-  2. `scroll-reveal` ×4 a 390: o botão e o link mudam de cor 0,1s ao entrar na tela. Vem do comportamento do kit (barra de ação ou camada de movimento no celular), não de código da página.
-  3. `hole` em #visita a 390: espaço vazio de 160×304 dentro da seção no celular.
-  4. `screen-height` #encomendas a 390: tinha 2,07 telas. Corrigido depois do gate (a captura mostra 2,00).
-- **Avisos não bloqueantes:** 18. Entre eles: botões em português que o verificador lê como "sem verbo da lista", a revelação dos cabeçalhos e a seção de visita sem visual.
+## O que não foi testado (atualizado em 23/11/2026)
+Desde a auditoria de 23/11/2026, Chromium e Firefox, o modo sem JavaScript, o movimento reduzido, as CDNs fora do ar, o teclado e o axe foram testados. Continuam sem teste:
+- Safari e um celular de verdade (só emulação; o WebKit do Playwright não abriu no Windows).
+- Leitor de tela real (NVDA ou VoiceOver).
+- Core Web Vitals em campo (só medição de laboratório).
+- O envio real pelo WhatsApp. O link `wa.me/5551982091084?text=...` é montado, mas nenhuma mensagem foi enviada.
 
-## O que não foi testado
-- Navegadores Safari, Firefox e Edge (só o Chromium do Playwright).
-- Um celular de verdade (só a emulação em 390px).
-- Core Web Vitals em campo. O `perf.mjs` não foi rodado.
-- O envio real pelo WhatsApp. O link `wa.me/5551982091084?text=...` foi montado, mas nenhuma mensagem foi enviada.
+## Histórico: 1ª versão (substituída em 20/11/2026)
+A 1ª versão partia de um kit de layout com sorteio de componentes. Ela foi refeita do zero na versão 2 (seção abaixo) e nada do kit ficou no site. O registro fica só como histórico: menu com painel de fotos, foto que "revela como papel fotográfico", verificador automático do kit com 4 falhas e 18 avisos. Nenhum desses itens existe na versão atual.
 
 ## Pendências para colocar no ar (Fase G)
 1. Aprovação da dona. Ela ainda não sabe do projeto.
@@ -59,20 +47,20 @@ Não foram usadas fotos de clientes do Google, nem a foto com a pessoa (provavel
 
 ## Revisão visual (20/11/2026): versão 2
 
-O usuário achou a primeira versão "muito ruim". A página foi refeita **fora do kit design-taste-frontend**, que impõe fundo liso, nada de camadas e quase nenhum movimento em sites de comércio local. A nova versão segue o prompt mestre (Etapa 6: profundidade, camadas, luz, texturas e física), com as skills `fisica-visual-materialidade`, `sites-cinematograficos` (só a parte de interface sobre a cena, sem sequência de frames), `scroll-suave-revelacao`, `tipografia-e-cor` e `creditos-desenvolvedor`.
+O usuário achou a primeira versão "muito ruim". A página foi refeita **sem o kit de layout da 1ª versão**, que impunha fundo liso, nada de camadas e quase nenhum movimento em sites de comércio local. A nova versão segue o prompt mestre (Etapa 6: profundidade, camadas, luz, texturas e física), com as skills `fisica-visual-materialidade`, `sites-cinematograficos` (só a parte de interface sobre a cena, sem sequência de frames), `scroll-suave-revelacao`, `tipografia-e-cor` e `creditos-desenvolvedor`.
 
 **Estrutura nova:** herói em tela cheia com a foto do balcão e cartão de vidro com "Aberto agora" → faixa dourada com os produtos rodando → Balcão (cardápio + mosaico de 6 fotos com etiquetas e elevação) → Encomendas (seção escura, 3 cartões em relevo, 3 passos, formulário em "papel" sobre a mesa) → Visita (endereço grande, cartão de informações, fotos em camadas sobre um bloco dourado) → rodapé escuro com o nome grande em marca d'água.
 
-**Arquivos:** `site/index.html`, `site/css/estilo.css`, `site/css/fontes.css`, `site/js/site.js` (topo, menu, barra do celular, aberto agora, formulário → WhatsApp), `site/js/animacoes.js` (Lenis + revelação só nos títulos). As cópias do kit foram removidas de `site/assets/`. Fica só `img/` e `fonts/`.
+**Arquivos:** `site/index.html`, `site/css/estilo.css`, `site/css/fontes.css`, `site/js/site.js` (topo, menu, barra do celular, aberto agora, formulário → WhatsApp), `site/js/animacoes.js` (Lenis + revelação só nos títulos). Em `site/assets/` ficam só `img/` e `fonts/`.
 
 **Física visual:** luz única no canto superior esquerdo, com tokens `--elev-1/2/3`. A elevação no hover anima só a opacidade de um pseudo-elemento (box-shadow nunca é animado). Botões com contato e compressão. Vidro com base opaca de reserva e `-webkit-`. Textura fosca de farinha no fundo. Parallax do herói via `animation-timeline: view()` dentro de `@supports`.
 
 **Movimento:** a entrada do herói acontece uma vez. A faixa roda, mas para ao passar o mouse e desliga com movimento reduzido. A revelação ao rolar vale só para títulos e textos de abertura (`data-revelar`). Com `prefers-reduced-motion`, tudo fica parado, inclusive o Lenis. Se a CDN falhar, o conteúdo continua visível.
 
-**Dependências externas:** GSAP 3.12.5 (cdnjs) e Lenis 1.3.27 (jsDelivr), com versão exata.
+**Dependências externas:** GSAP 3.12.5 e Lenis 1.3.27, com versão exata. Desde 23/11/2026 ficam em `site/js/vendor/` (antes vinham de cdnjs e jsDelivr).
 
 **Testes (Playwright/Chromium, 1440×900 e 390×844):** 0 erros no console, sem rolagem lateral, Lenis ativo, revelações completas ao rolar. Corrigido depois da primeira captura: contraste do botão do rodapé, telefone quebrando no passo 2, cartão de horário encostado na borda do celular, barra fixa cobrindo o botão do rodapé e foto pequena da visita colada na borda.
-**Não testado:** Safari, Firefox, celular real, Core Web Vitals e os modos sem JS e com movimento reduzido no navegador (só revisados no código).
+**Não testado na época:** Safari, Firefox, celular real, Core Web Vitals e os modos sem JS e com movimento reduzido no navegador. Ver a seção "O que não foi testado", atualizada.
 
 ---
 

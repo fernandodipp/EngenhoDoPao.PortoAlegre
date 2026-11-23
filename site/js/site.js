@@ -131,6 +131,8 @@
     };
     var verificar = function (el) {
       var erro = el.getAttribute('aria-describedby') && document.getElementById(el.getAttribute('aria-describedby'));
+      // nome só com espaços não vale (Q-07): o texto é conferido já sem os espaços das pontas
+      if (el.required && el.type === 'text') el.setCustomValidity(el.value.trim() ? '' : 'vazio');
       var ok = el.checkValidity();
       if (ok) { el.removeAttribute('aria-invalid'); if (erro) erro.hidden = true; }
       else { el.setAttribute('aria-invalid', 'true'); if (erro) erro.hidden = false; }
@@ -153,11 +155,18 @@
       if (v('f-pessoas')) linhas.push('Pessoas: ' + v('f-pessoas'));
       linhas.push('Nome: ' + v('f-nome'));
       if (v('f-obs')) linhas.push('Detalhes: ' + v('f-obs'));
-      form.elements.text.value = linhas.join('\n');
+      // monta o link com encodeURIComponent (espaço vira %20, não "+") e abre numa aba nova (Q-11).
+      // Sem JS, o formulário continua enviando a mensagem padrão pelo campo oculto.
+      e.preventDefault();
+      window.open(form.action + '?text=' + encodeURIComponent(linhas.join('\n')), '_blank', 'noopener');
       if (statusForm) statusForm.textContent = 'Abrindo o WhatsApp.';
     });
     document.querySelectorAll('a[data-tipo]').forEach(function (a) {
-      a.addEventListener('click', function () { document.getElementById('f-tipo').value = a.dataset.tipo; });
+      a.addEventListener('click', function () {
+        var tipo = document.getElementById('f-tipo');
+        tipo.value = a.dataset.tipo;
+        tipo.dispatchEvent(new Event('change', { bubbles: true })); // limpa um erro antigo do tipo (Q-05)
+      });
     });
   }
 })();
