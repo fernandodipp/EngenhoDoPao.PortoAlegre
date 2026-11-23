@@ -1,0 +1,4 @@
+Bibliotecas de terceiros hospedadas no próprio site (antes vinham das CDNs cdnjs e jsDelivr).
+- gsap.min.js e ScrollTrigger.min.js: GSAP 3.12.5 (ver LICENSE-gsap.txt)
+- lenis.min.js (+ .map): Lenis 1.3.27, licença MIT (ver LICENSE-lenis.txt)
+Para atualizar: trocar os arquivos pela versão nova do pacote npm e conferir as animações.

@@ -1,0 +1,15 @@
+GSAP 3.12.5 e ScrollTrigger 3.12.5 (gsap.min.js, ScrollTrigger.min.js)
+Copyright 2024, GreenSock. All rights reserved.
+
+Arquivos copiados sem alteração do pacote npm gsap@3.12.5 (dist/), idênticos
+aos servidos pela cdnjs (SHA-384 conferido em 23/11/2026).
+
+Licença da versão 3.12.5, conforme o próprio pacote:
+  "Standard 'no charge' license: https://gsap.com/standard-license"
+
+Licença vigente do GSAP (Webflow), consultada em 23/11/2026:
+  https://gsap.com/licensing/  (Effective date: April 30, 2025;
+  last modified: May 30, 2025). Permite usar e reproduzir o GSAP em
+  qualquer site, inclusive comercial, sem custo, e proíbe remover
+  ou alterar os avisos de propriedade. Por isso o cabeçalho de copyright
+  dos arquivos foi mantido.
