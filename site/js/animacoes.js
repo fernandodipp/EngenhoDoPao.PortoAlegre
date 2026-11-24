@@ -46,12 +46,13 @@
       return el.getBoundingClientRect().top > window.innerHeight; // o que já está na tela não pisca
     });
     if (!alvos.length) return;
-    gsap.set(alvos, { autoAlpha: 0, y: 32 });
+    // só opacidade (não autoAlpha/visibility): o texto continua na árvore de acessibilidade (A-12)
+    gsap.set(alvos, { opacity: 0, y: 32 });
     ScrollTrigger.batch(alvos, {
       start: 'top 88%',
       once: true,
       onEnter: function (lote) {
-        gsap.to(lote, { autoAlpha: 1, y: 0, duration: 0.8, ease: 'power3.out', stagger: 0.1, clearProps: 'transform,opacity,visibility' });
+        gsap.to(lote, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', stagger: 0.1, clearProps: 'transform,opacity' });
       }
     });
   }

@@ -27,7 +27,9 @@
   if (barra) {
     document.addEventListener('focusin', function (e) {
       if (!barra.classList.contains('is-visivel') || barra.contains(e.target)) return;
-      var topoBarra = barra.getBoundingClientRect().top;
+      var caixaBarra = barra.getBoundingClientRect();
+      if (!caixaBarra.height) return; // acima de 760 px a barra não é desenhada (R-01)
+      var topoBarra = caixaBarra.top;
       var fundo = e.target.getBoundingClientRect().bottom;
       if (fundo > topoBarra - 8) window.scrollBy(0, fundo - topoBarra + 16);
     });
@@ -139,7 +141,15 @@
       return ok;
     };
     campos.forEach(function (el) {
-      el.addEventListener(el.tagName === 'SELECT' ? 'change' : 'input', function () { if (el.getAttribute('aria-invalid')) verificar(el); });
+      el.addEventListener(el.tagName === 'SELECT' ? 'change' : 'input', function () {
+        if (!el.getAttribute('aria-invalid')) return;
+        verificar(el);
+        // atualiza o aviso só se ele já mostrava erros (sem anunciar a cada tecla)
+        if (statusForm && statusForm.textContent && el.getAttribute('aria-invalid') !== 'true') {
+          var n = form.querySelectorAll('[aria-invalid="true"]').length;
+          statusForm.textContent = n === 0 ? 'Campos corrigidos.' : n === 1 ? '1 campo para corrigir.' : n + ' campos para corrigir.';
+        }
+      });
     });
     form.addEventListener('submit', function (e) {
       conferirDomingo();
@@ -158,7 +168,10 @@
       // monta o link com encodeURIComponent (espaço vira %20, não "+") e abre numa aba nova (Q-11).
       // Sem JS, o formulário continua enviando a mensagem padrão pelo campo oculto.
       e.preventDefault();
-      window.open(form.action + '?text=' + encodeURIComponent(linhas.join('\n')), '_blank', 'noopener');
+      var url = form.action + '?text=' + encodeURIComponent(linhas.join('\n'));
+      var aba = window.open(url, '_blank');
+      if (aba) aba.opener = null; // mesmo efeito do noopener
+      else location.href = url;   // pop-up bloqueado (ou navegador de app): abre na própria aba (R-02)
       if (statusForm) statusForm.textContent = 'Abrindo o WhatsApp.';
     });
     document.querySelectorAll('a[data-tipo]').forEach(function (a) {

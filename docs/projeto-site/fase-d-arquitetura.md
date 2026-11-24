@@ -57,7 +57,7 @@ Celular: barra fixa no rodapé com "Fazer encomenda", que só aparece depois que
 - O topo entra uma vez, com desaceleração natural.
 - A foto do balcão revela como papel fotográfico (cerca de 1,6s), uma única vez.
 - Mouse e toque: foto com zoom de 1,03 dentro da moldura, cartão que sobe 2px, botão que afunda ao clicar e sublinhado que se desenha.
-- Nada se mexe sozinho, e nada aparece "ao rolar" fora a foto que revela.
+- Plano original: nada se mexeria sozinho. Na versão atual, a faixa de produtos roda (com botão "Pausar faixa") e os títulos de seção aparecem ao rolar (GSAP). Tudo para com movimento reduzido.
 
 ## Tecnologia
 - HTML, CSS e JS estáticos, sem framework e sem build. Bibliotecas de terceiros (GSAP e Lenis) hospedadas no próprio site, em `site/js/vendor/`.
