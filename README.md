@@ -6,6 +6,8 @@ Protótipo do site da padaria **Engenho do Pão** (Praça Lima Duarte, Chácara 
 - `docs/projeto-site/`: diagnóstico, identidade, conteúdo, arquitetura e testes (fases A–F).
 - `.github/workflows/pages.yml`: publica `site/` no GitHub Pages a cada push na `main`.
 
+Medição (preparada, ainda sem ferramenta): os links do iFood têm `data-evento="clique-ifood"` e os do WhatsApp (`wa.me`) têm `data-evento="clique-whatsapp"`.
+
 Para ver localmente: `cd site && python3 -m http.server 8000` e abra http://localhost:8000.
 
 Desenvolvido por [Fernando Dipp](https://fernandodipp.pages.dev/).

@@ -482,6 +482,13 @@ html.lenis { scroll-behavior: auto; }
 
 .sem-quebra { white-space: nowrap; }
 
+/* ---------- Faixa do delivery (iFood): fina, botão secundário, sem cor nova ---------- */
+.delivery { padding-block: clamp(2.5rem, 5vw, 3.75rem); border-block: 1px solid var(--linha); }
+.delivery__grade { display: grid; gap: 1.25rem; justify-items: start; }
+.delivery h2 { font-size: clamp(1.75rem, 1.3rem + 1.6vw, 2.5rem); margin-top: .6rem; }
+.delivery__texto { margin-top: .6rem; color: var(--tinta-2); font-size: var(--fs-lg); line-height: 1.45; max-width: 40ch; }
+@media (min-width: 761px) { .delivery__grade { grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 2rem; } }
+
 /* ---------- Aprovação social ---------- */
 .depoimentos { background: var(--creme-2); }
 .depo-grade { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1rem, 2vw, 1.5rem); align-items: stretch; }
