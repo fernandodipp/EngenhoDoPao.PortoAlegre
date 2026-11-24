@@ -412,6 +412,10 @@ a { color: inherit; }
 .horas .hoje { font-weight: 700; }
 .info__extra { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: .5rem; padding-top: 1.25rem; border-top: 1px solid var(--linha); }
 .pilula { display: inline-flex; align-items: center; gap: .4rem; padding: .4rem .8rem; border-radius: 999px; background: var(--creme-2); font-size: .875rem; font-weight: 700; }
+/* pílula que é link (iFood): sublinhada para não depender só da cor (WCAG 1.4.1) */
+.pilula--link { color: inherit; text-decoration: underline; text-underline-offset: 3px; min-height: 32px; }
+.pilula--link svg { width: 14px; height: 14px; flex: none; transition: transform var(--dur-media) var(--mola); }
+@media (hover: hover) { .pilula--link:hover { background: var(--ouro-claro); } .pilula--link:hover svg { transform: translateX(3px); } }
 .visita__acoes { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.75rem; }
 .camadas { position: relative; padding: 0 0 2.5rem 2.5rem; }
 .camadas::before { /* bloco dourado deslocado atrás da foto: profundidade */

@@ -37,7 +37,7 @@ A 1ª versão partia de um kit de layout com sorteio de componentes. Ela foi ref
 2. Fotos originais em alta resolução e logo em vetor.
 3. Prazos, preços, entrega, formas de pagamento e encomenda mínima, para o texto das encomendas e um bloco de perguntas frequentes.
 4. Razão social e CNPJ no rodapé e na política de privacidade (marcados como `<!-- PENDENTE -->`).
-5. Link da loja no iFood (hoje só aparece o texto "Pelo iFood").
+5. ~~Link da loja no iFood~~ Feito em 24/11/2026: link no cardápio (doguinho), na pílula "Delivery pelo iFood" da visita e no rodapé.
 6. Acesso ao domínio `engenhodopao.com.br` (registro.br) e decisão de hospedagem. A ficha do Google e o link da bio já apontam para esse domínio, então colocar o site nele corrige o link quebrado.
 7. Depoimentos autorizados, se ela quiser prova social.
 8. Ativar a `canonical` e conferir o `og:image` (`share.jpg`) com o domínio final.
